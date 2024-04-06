@@ -3,7 +3,7 @@
 > *This is a personal blog platform SSR WebApp using Spring and PostgreSQL.*
 
 <div align="center">
-  <img src="database-diagram.png" style="width:800px background-color:white"/>
+  <img src="database-diagram.png" style="width:800px; background-color:white"/>
   <p align="center" style="font-style: italic; color: #999;">
     Personal blog platform's database diagram
   </p>
