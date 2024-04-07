@@ -11,11 +11,11 @@
 
 ## Database scripts
 
-### Create table script
+### Create database script
 
 ```sql
 CREATE DATABASE "blog-platform"
-    WITH
+    WITHv
     OWNER = postgres
     ENCODING = 'UTF8'
     LC_COLLATE = 'C'
@@ -24,14 +24,11 @@ CREATE DATABASE "blog-platform"
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
-
-COMMENT ON DATABASE "blog-platform"
-    IS 'A database for storing blog of a personal blog platform';
 ```
 
 ### Blogs table
 
-Script for sequence of `id`:
+Script for creating sequence of `id`:
 
 ```sql
 CREATE SEQUENCE IF NOT EXISTS public.blogs_id_seq
@@ -40,13 +37,12 @@ CREATE SEQUENCE IF NOT EXISTS public.blogs_id_seq
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1
-    OWNED BY blogs.id;
 
 ALTER SEQUENCE public.blogs_id_seq
     OWNER TO postgres;
 ```
 
-Script for table:
+Script for creating table:
 
 ```sql
 CREATE TABLE IF NOT EXISTS public.blogs
@@ -71,6 +67,17 @@ ALTER TABLE IF EXISTS public.blogs
     OWNER to postgres;
 ```
 
+After the table has been created, go to the sequence properties and add the owner into the sequence:
+
+<div>
+    <img src="sequence-config.png">
+    <p align="center" style="font-style: italic; color: #999;">
+    Configuring the section "Owned By" of the sequence 
+  </p>
+</div>
+
+
+
 ### Categories table
 
 Script for sequence of `id`:
@@ -82,7 +89,6 @@ CREATE SEQUENCE IF NOT EXISTS public.categories_id_seq
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1
-    OWNED BY categories.id;
 
 ALTER SEQUENCE public.categories_id_seq
     OWNER TO postgres;
@@ -119,7 +125,6 @@ CREATE SEQUENCE IF NOT EXISTS public.category_details_category_id_seq
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1
-    OWNED BY category_details.category_id;
 
 ALTER SEQUENCE public.category_details_category_id_seq
     OWNER TO postgres;
@@ -134,7 +139,6 @@ CREATE SEQUENCE IF NOT EXISTS public.category_details_blog_id_seq
     MINVALUE 1
     MAXVALUE 2147483647
     CACHE 1
-    OWNED BY category_details.blog_id;
 
 ALTER SEQUENCE public.category_details_blog_id_seq
     OWNER TO postgres;
