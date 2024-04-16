@@ -16,8 +16,9 @@ import java.util.Collection;
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq_generator")
+    @SequenceGenerator(name = "category_seq_generator", sequenceName = "public.categories_id_seq", allocationSize = 1)
+    private Long id;
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;

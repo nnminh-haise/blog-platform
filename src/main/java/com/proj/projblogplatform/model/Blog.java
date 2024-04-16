@@ -17,7 +17,8 @@ import java.util.Date;
 @Table(name = "blogs")
 public class Blog {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "blog_seq_generator")
+    @SequenceGenerator(name = "blog_seq_generator", sequenceName = "public.blogs_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(name = "title", nullable = false, unique = true)
