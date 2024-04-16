@@ -9,7 +9,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Controller
 @RequestMapping("categories")
@@ -21,10 +24,10 @@ public class CategoryController {
     public String create(ModelMap model) {
         Category category = new Category(
                 null,
-                "cate01",
-                LocalDateTime.now(),
+                "cate03",
+                Timestamp.valueOf(LocalDateTime.now()),
                 null,
-                LocalDateTime.now(),
+                Timestamp.valueOf(LocalDateTime.now()),
                 null
         );
         RepositoryResponse response = categoryRepository.save(category);

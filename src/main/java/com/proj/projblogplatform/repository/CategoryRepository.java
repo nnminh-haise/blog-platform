@@ -23,10 +23,11 @@ public class CategoryRepository {
         Transaction transaction = session.beginTransaction();
         try {
             session.save(category);
+            transaction.commit();
         }
         catch (Exception e) {
-            transaction.rollback();
             response.setMessage(e.getMessage()).setStatus(false);
+            transaction.rollback();
         }
         finally {
             session.close();
