@@ -12,7 +12,7 @@
 </head>
   <h1>Route</h1>
 
-  <p><a href="categories.htm">categories</a></p>
+  <p><a href="category/list.htm">categories</a></p>
   <p><a href="blog/list.htm">blog/list.htm</a></p>
 </body>
 </html>

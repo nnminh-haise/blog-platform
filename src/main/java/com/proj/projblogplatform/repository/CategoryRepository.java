@@ -43,7 +43,16 @@ public class CategoryRepository {
         String findAllCategory = "FROM Category";
         Query query = session.createQuery(findAllCategory);
         List<Category> categories = query.list();
-
         return categories;
+    }
+    @Transactional
+    public Category findById(Integer id) {
+        Session session = sessionFactory.getCurrentSession();
+        String findCategoryById = "FROM Category WHERE id = :id";
+        Query query = session.createQuery(findCategoryById);
+        query.setParameter("id", id);
+        Category category = (Category) query.uniqueResult();
+        System.out.println("ID: " + category.getId() + ", Name: " + category.getName());
+        return category;
     }
 }
