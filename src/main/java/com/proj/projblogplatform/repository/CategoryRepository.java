@@ -2,6 +2,7 @@ package com.proj.projblogplatform.repository;
 
 import com.proj.projblogplatform.dto.RepositoryResponse;
 import com.proj.projblogplatform.model.Category;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class CategoryRepository {
@@ -34,5 +36,14 @@ public class CategoryRepository {
         }
 
         return response;
+    }
+    @Transactional
+    public List<Category> findAll() {
+        Session session = sessionFactory.getCurrentSession();
+        String findAllCategory = "FROM Category";
+        Query query = session.createQuery(findAllCategory);
+        List<Category> categories = query.list();
+
+        return categories;
     }
 }
