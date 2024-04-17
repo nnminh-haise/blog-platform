@@ -24,6 +24,10 @@
 </head>
 <body>
 <div class="container-scroller">
+    <script type="text/javascript">
+        var message = ${message};
+        alert(message);
+    </script>
     <!-- partial:../../partials/_navbar.html -->
     <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
@@ -217,8 +221,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../../pages/forms/basic_elements.html">
-                        <span class="menu-title">Forms</span>
+                    <a class="nav-link" href="/proj-blog-platform/category/list.htm">
+                        <span class="menu-title">Category</span>
                         <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                     </a>
                 </li>
@@ -273,17 +277,12 @@
         <div class="main-panel">
             <div class="content-wrapper">
                 <div class="page-header">
-                    <h3 class="page-title"> Basic Tables </h3>
+                    <h3 class="page-title"> Categories </h3>
                     <div class="template-demo">
-                        <a href="#" >
+                        <a href="/proj-blog-platform/category/insert.htm" >
                             <button type="button" class="btn btn-gradient-success btn-fw">Add</button>
                         </a>
-                        <a href="#" >
-                            <button type="button" class="btn btn-gradient-warning btn-fw">Edit</button>
-                        </a>
-                        <a href="#" >
-                            <button type="button" class="btn btn-gradient-danger btn-fw">Delete</button>
-                        </a>
+
                     </div>
                 </div>
                 <div class="row">
@@ -296,7 +295,7 @@
                                     <tr>
                                         <th> ID </th>
                                         <th> Name </th>
-
+                                        <th> Manage </th>
                                     </tr>
                                     </thead>
 
@@ -323,6 +322,14 @@
                                         <tr class="${rowClass}">
                                             <td><c:out value="${category.id}" /></td>
                                             <td><c:out value="${category.name}" /></td>
+                                            <td style="width: 20%;">
+                                                <a href="/proj-blog-platform/category/edit/${category.id}.htm" >
+                                                    <button type="button" class="btn btn-gradient-warning btn-fw">Edit</button>
+                                                </a>
+                                                <a href="/proj-blog-platform/category/delete/${category.id}.htm" onclick="return confirm('are you sure')">
+                                                    <button type="button" class="btn btn-gradient-danger btn-fw">Delete</button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>

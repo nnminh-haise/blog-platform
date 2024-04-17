@@ -1,9 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
     <base href="${pageContext.request.contextPath}/" />
     <!-- Required meta tags -->
@@ -219,7 +218,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/proj-blog-platform/category/list.htm">
-                        <span class="menu-title">Categories</span>
+                        <span class="menu-title">Category</span>
                         <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                     </a>
                 </li>
@@ -283,20 +282,82 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 grid-margin stretch-card">
+                    <div class="col-lg-12 stretch-card">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Add new Category</h4>
-                                <p class="card-description"> Fill infomation in the blank </p>
-                                <form:form class="form-inline" method="post" action="category/insert.htm" modelAttribute = "category">
-                                    <div class="form-group">
-                                        <label  class="sr-only">Name of Category</label>
-                                        <form:input  class="form-control mb-2 mr-sm-2" path = "name" placeholder="Fill here"/>
-                                    </div>
+                                <h4 class="card-title">Category List</h4>
+                                <form action="/proj-blog-platform/category/edit/${id}.htm" method="POST" modelAttribute="cate">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th> ID </th>
+                                        <th> Name </th>
+                                        <th> Manage </th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <c:forEach var="category" items="${categories}" varStatus="loop">
+                                        <c:set var="rowClass" value=""/>
+                                        <c:choose>
+                                            <c:when test="${loop.index % 5 == 0}">
+                                                <c:set var="rowClass" value="table-info"/>
+                                            </c:when>
+                                            <c:when test="${loop.index % 5 == 1}">
+                                                <c:set var="rowClass" value="table-warning"/>
+                                            </c:when>
+                                            <c:when test="${loop.index % 5 == 2}">
+                                                <c:set var="rowClass" value="table-danger"/>
+                                            </c:when>
+                                            <c:when test="${loop.index % 5 == 3}">
+                                                <c:set var="rowClass" value="table-success"/>
+                                            </c:when>
+                                            <c:when test="${loop.index % 5 == 4}">
+                                                <c:set var="rowClass" value="table-primary"/>
+                                            </c:when>
+                                        </c:choose>
+                                        <tr class="${rowClass}">
+                                            <td><c:out value="${category.id}" /></td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${category.id eq id}">
+                                                        <!-- Nếu category.id bằng id đã chỉ định, sử dụng input để cho phép chỉnh sửa -->
+                                                            <input type="text" name="name" value="${category.name}" />
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <!-- Nếu không, sử dụng c:out để hiển thị giá trị chỉ đọc -->
+                                                        <c:out value="${category.name}" />
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td style="width: 20%;">
+                                                <c:choose>
+                                                    <c:when test="${category.id eq id}">
+                                                        <!-- Nếu đang ở chế độ chỉnh sửa, hiển thị nút "Save" và "Delete" -->
 
 
-                                    <button type="submit" class="btn btn-gradient-primary mb-2">Submit</button>
-                                </form:form>
+                                                        <button type="submit" class="btn btn-gradient-info btn-fw">Save</button>
+
+                                                        <a href="/proj-blog-platform/category/delete/${category.id}.htm" >
+                                                            <button type="button" class="btn btn-gradient-danger btn-fw">Delete</button>
+                                                        </a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <!-- Nếu không, hiển thị nút "Edit" và "Delete" -->
+                                                        <a href="/proj-blog-platform/category/edit/${category.id}.htm" >
+                                                            <button type="button" class="btn btn-gradient-warning btn-fw">Edit</button>
+                                                        </a>
+                                                        <a href="/proj-blog-platform/category/delete/${category.id}.htm" >
+                                                            <button type="button" class="btn btn-gradient-danger btn-fw">Delete</button>
+                                                        </a>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                                </form>
                             </div>
                         </div>
                     </div>

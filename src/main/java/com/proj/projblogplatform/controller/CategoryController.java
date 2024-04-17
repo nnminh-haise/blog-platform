@@ -10,9 +10,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -70,10 +68,12 @@ public class CategoryController {
             transaction = session.beginTransaction();
             session.save(category);
             transaction.commit();
+            model.addAttribute("message", "Insert success");
         } catch (HibernateException e) {
             transaction.rollback();
             System.out.println("Error: " + e);
             System.out.println("createat " + category.getCreateAt());
+            model.addAttribute("message", "Error: " + e);
             e.printStackTrace();
         } finally {
             session.close();
@@ -87,5 +87,62 @@ public class CategoryController {
         System.out.println("ID: ");
         model.addAttribute("data", categories);
         return "category/test";
+    }
+    @RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+    public String edit(ModelMap model, @PathVariable("id") Integer id  ){
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
+        Category category = categoryRepository.findById(id);
+        model.addAttribute("cate", category);
+        System.out.println("ID: " + category.getId() + ", Name: " + category.getName());
+        System.out.println("ID: " + category.getCreateAt() + ", Name: " + category.getUpdateAt());
+        model.addAttribute("id", id);
+        return "category/edit";
+    }
+    @RequestMapping(value ="edit/{id}", method = RequestMethod.POST)
+    public String edit(ModelMap model, @PathVariable("id") Integer id,@ModelAttribute("cate") Category category){
+
+        category.setUpdateAt(Timestamp.valueOf(LocalDateTime.now()));
+        Category old = categoryRepository.findById(id);
+        category.setCreateAt(old.getCreateAt());
+
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+
+            session.update(category);
+            transaction.commit();
+            model.addAttribute("message", "Update success");
+        } catch (Exception e) {
+            transaction.rollback();
+            System.out.println("Error: " + e);
+            System.out.println("createat " + category.getCreateAt());
+            e.printStackTrace();
+            model.addAttribute("message", "Error: " + e);
+        } finally {
+            session.close();
+        }
+        return "redirect:/category/list.htm";
+    }
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
+    public String delete(ModelMap model, @PathVariable("id") Integer id) {
+        Category category = categoryRepository.findById(id);
+        Session session = factory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.delete(category);
+            transaction.commit();
+            model.addAttribute("message", "Delete success");
+        } catch (Exception e) {
+            transaction.rollback();
+            System.out.println("Error: " + e);
+            e.printStackTrace();
+            model.addAttribute("message", "Error: " + e);
+        } finally {
+            session.close();
+
+        }
+        return "redirect:/category/list.htm";
     }
 }
